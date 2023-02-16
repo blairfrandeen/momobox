@@ -26,6 +26,9 @@ List of learning & technical resources that can be used to complete this project
 - [Uploading to Raspberry Pi Pico without Thonny](https://mikeesto.medium.com/uploading-to-the-raspberry-pi-pico-without-thonny-53de1a10da30)
 - [Adafruit](https://learn.adafruit.com/) - Some beginning elex tutorials and components
 - [Simple MP3 Audio Playback With Raspberry Pi Pico](https://embeddedcomputing.com/technology/processing/interface-io/simple-mp3-audio-playback-with-raspberry-pi-pico) - Good tutorial to start working next.
+- [Raspberry Pi Pico Tutorial with battery hookup](https://www.raspberrypi.com/tutorials/raspberry-pi-pico-iron-man-arc-reactor/)
+- [Tom's Hardware Pico Page](https://www.tomshardware.com/news/raspberry-pi-pico-tutorials-pinout-everything-you-need-to-know)
+- [Raspberry Pi Projects Page](https://projects.raspberrypi.org/en/projects/getting-started-with-the-pico) - Getting started with Pico tutorial
 
 ## Subsystems
 ### Electrical
