@@ -46,11 +46,16 @@ Electical / Off the shelf components:
 All non off-the-shelf components will be 3D printed. STL / CAD files will be part of the repository. There will be various components for the base / housing, as well as individual Momies. There should be a univervsal base for the Momies that includes a place to glue-in an RFID chip.
 
 ### Software
-- Onboard software (software that starts / stop songs, etc.)
-    - Target user: 2 year-old
-- Admin Software (add songs, add / remove figures, etc.)
-    - Target user: adult who is comfortable using a linux terminal
+#### Onboard software (software that starts / stop songs, etc.)
+**Target user:** 2 year-old
+The behavior should be as follows:
+- When recognized Momie is placed on the box, play the associated song
+- When the Momie is removed, pause the song
+- If the same Momie is replaced within a certain time interval, resume play
+- If the Momie is replaced after a sufficiently long time, start over
+
+#### Admin Software (add songs, add / remove figures, etc.)
+**Target user:**  adult who is comfortable using a linux terminal
 
 ## Materials
-A full bill of materials will be set up here
-
+Materials currently on order are stored in this [Google Sheet](https://docs.google.com/spreadsheets/d/11zDQTo5MPM0dLdLS7p9JRmXvDPAh0dKTZ6d4dLGUlPc/edit?usp=sharing). A finalized bill of materials should go in this section once an initial build configuration has been selected.
