@@ -1,1 +1,4 @@
 *.swp
+venv/
+*.gcode
+*.mp3
