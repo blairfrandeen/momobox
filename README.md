@@ -45,6 +45,13 @@ Electical / Off the shelf components:
 ### Mechanical
 All non off-the-shelf components will be 3D printed. STL / CAD files will be part of the repository. There will be various components for the base / housing, as well as individual Momies. There should be a univervsal base for the Momies that includes a place to glue-in an RFID chip.
 
+#### 3D Printed Components
+Component | CAD Source | STL File
+--- | --- | --- 
+Base | [OnShape](https://cad.onshape.com/documents/79b0dabc494fde770de26b57/w/b19bbc68ed3995e5b344c842/e/d2a39d4dcadbb5ff28daf759) | [momobox_base.stl](https://github.com/blairfrandeen/momobox/blob/master/packaging/momobox_base.stl)
+Lid | work to go | work to go
+Momie Stand | work to go | work to go
+
 ### Software
 #### Onboard software (software that starts / stop songs, etc.)
 **Target user:** 2 year-old
