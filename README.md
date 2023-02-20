@@ -66,3 +66,11 @@ The behavior should be as follows:
 
 ## Materials
 Materials currently on order are stored in this [Google Sheet](https://docs.google.com/spreadsheets/d/11zDQTo5MPM0dLdLS7p9JRmXvDPAh0dKTZ6d4dLGUlPc/edit?usp=sharing). A finalized bill of materials should go in this section once an initial build configuration has been selected.
+
+## Momies
+List of momies, sources for models, and stories
+
+Name and Link | Story
+[Max](https://www.thingiverse.com/thing:2805554) | [Where the Wild Things Are](https://www.youtube.com/watch?v=PYODJWX3M0k)
+[Green Eggs and Ham](https://www.thingiverse.com/thing:4099315) | [Green Eggs and Ham](https://www.youtube.com/watch?v=kgu_1Q3uCpk)
+[Thing 1 and Thing 2](https://www.thingiverse.com/thing:2353260) | Cat in the Hat
