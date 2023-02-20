@@ -71,6 +71,7 @@ Materials currently on order are stored in this [Google Sheet](https://docs.goog
 List of momies, sources for models, and stories
 
 Name and Link | Story
+--- | ---
 [Max](https://www.thingiverse.com/thing:2805554) | [Where the Wild Things Are](https://www.youtube.com/watch?v=PYODJWX3M0k)
 [Green Eggs and Ham](https://www.thingiverse.com/thing:4099315) | [Green Eggs and Ham](https://www.youtube.com/watch?v=kgu_1Q3uCpk)
 [Thing 1 and Thing 2](https://www.thingiverse.com/thing:2353260) | Cat in the Hat
