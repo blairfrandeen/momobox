@@ -2,3 +2,4 @@
 venv/
 *.gcode
 *.mp3
+__pycache__/
