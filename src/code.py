@@ -6,7 +6,10 @@ import time
 import audiomp3
 import audiopwmio
 import board
+import busio
 import digitalio
+
+import mfrc522
 
 
 class Song:
@@ -21,8 +24,8 @@ class Song:
 # RFID codes on individual momies. Songs mock pointers to
 # MP3 files on the SD card
 library = {
-    1: Song("wappin.mp3", 50),
-    2: Song("shavingcream_32_mono.mp3", 70),
+    "23d95433": Song("wappin.mp3", 50),
+    "b8003433": Song("shavingcream.mp3", 70),
 }
 
 RESET_CLOCK_S = 5
@@ -35,6 +38,7 @@ class AudioPlayer:
         self.decoder = None
         self.hall_sensor = hall_sensor  # GPIO Pin 18
         self.reset_clock = 0
+        self.rfid_reader = rfid_reader_init()
 
         self.listen()
 
@@ -82,8 +86,37 @@ class AudioPlayer:
                 self.resume()
 
     def get_input(self):
-        selection = int(input("Select Song ID: "))
-        self.play(library[selection].filename)
+        print("Place RFID card on sensor to select song")
+        song = read_rfid(self.rfid_reader)
+        self.play(library[song].filename)
+
+
+def rfid_reader_init():
+    sck = board.GP2
+    mosi = board.GP3
+    miso = board.GP4
+    spi = busio.SPI(sck, MOSI=mosi, MISO=miso)
+
+    cs = digitalio.DigitalInOut(board.GP1)
+    rst = digitalio.DigitalInOut(board.GP0)
+    rfid = mfrc522.MFRC522(spi, cs, rst)
+
+    rfid.set_antenna_gain(0x07 << 4)
+    return rfid
+
+
+def read_rfid(rfid_reader):
+    while True:
+        (status, tag_type) = rfid_reader.request(rfid_reader.REQALL)
+        if status == rfid_reader.OK:
+            (status, raw_uid) = rfid_reader.anticoll()
+            if status == rfid_reader.OK:
+                print("Found something!")
+                rfid_data = "{:02x}{:02x}{:02x}{:02x}".format(
+                    raw_uid[0], raw_uid[1], raw_uid[2], raw_uid[3]
+                )
+                print(rfid_data)
+                return rfid_data
 
 
 def main():
@@ -92,6 +125,7 @@ def main():
     pause_ts: float = 0.0  # last pause
 
     p18 = digitalio.DigitalInOut(board.GP18)
+    #  read_rfid()
     player = AudioPlayer(p18)
 
 
