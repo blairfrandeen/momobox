@@ -12,20 +12,13 @@ import digitalio
 import mfrc522
 
 
-class Song:
-    """Mockup for MP3 files that can be played"""
-
-    def __init__(self, filename, length):
-        self.filename = filename
-        self.length = length
-
-
-# Mockup for database: keys in this dictionary mock the
-# RFID codes on individual momies. Songs mock pointers to
-# MP3 files on the SD card
-library = {
-    "23d95433": Song("wappin.mp3", 50),
-    "b8003433": Song("shavingcream.mp3", 70),
+# Dictionary to map RFID codes to song/story path names
+# TODO: Make this into human-readable file outside of
+# operational code
+LIBRARY = {
+    "23d95433": "wappin.mp3",
+    "b8003433": "shavingcream.mp3",
+    "88046318": "wildthings.mp3",
 }
 
 RESET_CLOCK_S = 5
@@ -88,7 +81,7 @@ class AudioPlayer:
     def get_input(self):
         print("Place RFID card on sensor to select song")
         song = read_rfid(self.rfid_reader)
-        self.play(library[song].filename)
+        self.play(LIBRARY[song])
 
 
 def rfid_reader_init():
