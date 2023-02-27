@@ -17,8 +17,10 @@ This is an open-source hardware, software, and electronics project that I'm unde
 - [ ] Volume is adjustable to an appropriate level. _(Ok if this is done via software or hard-to-reach hardware)_
 - [ ] Momie is secured to the top of the enclosure with a magnet.
 - [ ] Stops playing when the Momie is removed.
-- [ ] Includes mechanical switch to switch between power-off and standby modes.
 - [ ] Housed in a mechanical enclosure that is more-or-less toddler-proof.
+
+### Additional Features
+- [ ] Includes mechanical switch to switch between power-off and standby modes.
 
 ## Resources
 List of learning & technical resources that can be used to complete this project:
