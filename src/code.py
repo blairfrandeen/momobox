@@ -8,6 +8,8 @@ import audiopwmio
 import board
 import busio
 import digitalio
+import sdcardio
+import storage
 
 import mfrc522
 
@@ -18,7 +20,9 @@ import mfrc522
 LIBRARY = {
     "23d95433": "wappin.mp3",
     "b8003433": "shavingcream.mp3",
-    "88046318": "wildthings.mp3",
+    "88046318": "/sd/wildthings.mp3",
+    "8804710a": "/sd/greeneggs.mp3",
+    "8804635b": "/sd/peppa.mp3",
 }
 
 RESET_CLOCK_S = 5
@@ -116,6 +120,15 @@ def main():
     stop_time: int = 0  # state variable, when was most recent song stopped
     most_recent: int = None  # most recent song id
     pause_ts: float = 0.0  # last pause
+
+    # Mount SD card
+    p1 = digitalio.DigitalInOut(board.GP22)  # assign pin for DET
+    assert p1.value is True  # no SD card inserted
+    spi = busio.SPI(board.GP14, board.GP11, board.GP12)
+    cs = board.GP13
+    sdcard = sdcardio.SDCard(spi, cs)
+    vfs = storage.VfsFat(sdcard)
+    storage.mount(vfs, "/sd")
 
     p18 = digitalio.DigitalInOut(board.GP18)
     #  read_rfid()
