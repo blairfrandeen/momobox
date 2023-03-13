@@ -2,4 +2,6 @@
 venv/
 *.gcode
 *.mp3
+!soundcheck.mp3
 __pycache__/
+*.uf2
