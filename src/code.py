@@ -29,19 +29,18 @@ RESET_CLOCK_S = 5
 
 
 class AudioPlayer:
-    def __init__(self, hall_sensor):
-        self.audio = audiopwmio.PWMAudioOut(board.GP16)
-        self.song = None
+    def __init__(self, hall_sensor, audio_out):
+        self.audio = audiopwmio.PWMAudioOut(audio_out)  # board.GP16
+        self.song: Optional[str] = None
         self.decoder = None
-        self.hall_sensor = hall_sensor  # GPIO Pin 18
-        self.reset_clock = 0
+        self.hall_sensor = digitalio.DigitalInOut(hall_sensor)  # GPIO Pin 18
+        self.reset_clock: int = 0
         self.rfid_reader = rfid_reader_init()
 
         self.listen()
 
-    def play(self, filename):
-        self.song = filename
-        self.decoder = audiomp3.MP3Decoder(open(self.song, "rb"))
+    def play(self):
+        self.decoder = audiomp3.MP3Decoder(open(LIBRARY[self.song], "rb"))
         self.audio.play(self.decoder)
 
     def pause(self):
@@ -49,11 +48,7 @@ class AudioPlayer:
         self.reset_clock = time.time()
 
     def resume(self):
-        time_paused = time.time() - self.reset_clock
-        if time_paused < RESET_CLOCK_S:
-            self.audio.resume()
-        else:
-            self.audio.stop()
+        self.audio.resume()
 
     def unload(self):
         self.audio.stop()
@@ -68,24 +63,41 @@ class AudioPlayer:
 
     def listen(self):
         while True:
-            if (
-                self.hall_sensor.value is True
-                and not self.is_playing
-                and not self.is_paused
-            ):
-                self.get_input()
-            if self.hall_sensor.value is False:
-                print("Hall sensor disconnected.")
-                if not self.is_paused:
-                    self.pause()
-                time.sleep(1)
-            if self.hall_sensor.value is True and self.is_paused:
-                self.resume()
+            if self.hall_sensor.value is True:
+                # Figure out what to play
+                if self.is_paused:
+                    # See what's on the RFID reader:
+                    new_song = read_rfid(self.rfid_reader)
 
-    def get_input(self):
-        print("Place RFID card on sensor to select song")
-        song = read_rfid(self.rfid_reader)
-        self.play(LIBRARY[song])
+                    time_paused = time.time() - self.reset_clock
+                    # check that we still have the same song
+                    # and that we haven't been gone too long
+                    if new_song == self.song and time_paused < RESET_CLOCK_S:
+                        self.resume()
+                    else:  # start a new song
+                        self.audio.stop()
+                        self.song = new_song
+                        self.play()
+                elif not self.is_playing:
+                    # play a new song
+                    new_song = read_rfid(self.rfid_reader)
+
+                    # Avoid repeating songs if momie left on top
+                    if new_song != self.song:
+                        self.song = new_song
+                        self.play()
+                else:
+                    # Keep going!
+                    pass
+            else:
+                if self.is_playing and not self.is_paused:
+                    self.pause()
+                #  if self.is_paused:
+                #  time_paused = time.time() - self.reset_clock
+                #  print(time_paused, time.time(), self.reset_clock)
+                #  if time_paused < RESET_CLOCK_S:
+                #  print("Timeout, stopping!")
+                #  self.audio.stop()
 
 
 def rfid_reader_init():
@@ -104,11 +116,12 @@ def rfid_reader_init():
 
 def read_rfid(rfid_reader):
     while True:
+        print("Making RFID request")
         (status, tag_type) = rfid_reader.request(rfid_reader.REQALL)
         if status == rfid_reader.OK:
             (status, raw_uid) = rfid_reader.anticoll()
             if status == rfid_reader.OK:
-                print("Found something!")
+                print("Found RFID key: ", end="")
                 rfid_data = "{:02x}{:02x}{:02x}{:02x}".format(
                     raw_uid[0], raw_uid[1], raw_uid[2], raw_uid[3]
                 )
@@ -116,23 +129,38 @@ def read_rfid(rfid_reader):
                 return rfid_data
 
 
-def main():
-    stop_time: int = 0  # state variable, when was most recent song stopped
-    most_recent: int = None  # most recent song id
-    pause_ts: float = 0.0  # last pause
+def test_hall():
+    hall = digitalio.DigitalInOut(board.GP8)
+    while True:
+        print(hall.value)
+        time.sleep(0.2)
 
+
+def mount_sd_card():
     # Mount SD card
     p1 = digitalio.DigitalInOut(board.GP22)  # assign pin for DET
-    assert p1.value is True  # no SD card inserted
+    try:
+        assert p1.value is True  # no SD card inserted
+    except AssertionError:
+        print("NO SD Card Inserted!")
+        exit(-1)
     spi = busio.SPI(board.GP14, board.GP11, board.GP12)
     cs = board.GP13
     sdcard = sdcardio.SDCard(spi, cs)
     vfs = storage.VfsFat(sdcard)
     storage.mount(vfs, "/sd")
 
-    p18 = digitalio.DigitalInOut(board.GP18)
+
+def main():
+    stop_time: int = 0  # state variable, when was most recent song stopped
+    most_recent: int = None  # most recent song id
+    pause_ts: float = 0.0  # last pause
+
+    hall_sensor = board.GP8
+    audio_out = board.GP16
     #  read_rfid()
-    player = AudioPlayer(p18)
+    player = AudioPlayer(hall_sensor, audio_out)
+    #  test_hall()
 
 
 if __name__ == "__main__":
