@@ -4,6 +4,7 @@ import audiomp3
 import audiopwmio
 import board
 import busio
+import digitalio
 import storage
 import sdcardio
 
@@ -30,6 +31,19 @@ def test_sd_mount():
 
     except OSError:
         print("SD Card not mounted!")
+
+
+def test_hall_sensor():
+    print("Checking hall sensor")
+    hall = digitalio.DigitalInOut(board.GP8)
+    if hall.value is True:
+        print("Please remove magnet from top of Momobox")
+        while hall.value is True:
+            pass
+    print("Please place magnet on top of Momobox.")
+    while hall.value is False:
+        pass
+    print("Magnet detected, hall sensor is working!")
 
 
 def test_audio():
