@@ -5,3 +5,4 @@ venv/
 !soundcheck.mp3
 __pycache__/
 *.uf2
+*.3mf
