@@ -110,7 +110,7 @@ def rfid_reader_init():
     rst = digitalio.DigitalInOut(board.GP0)
     rfid = mfrc522.MFRC522(spi, cs, rst)
 
-    rfid.set_antenna_gain(0x07 << 4)
+    rfid.set_antenna_gain(0x00 << 4)
     return rfid
 
 
