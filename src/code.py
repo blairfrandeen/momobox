@@ -25,7 +25,10 @@ LIBRARY = {
     "8804635b": "/sd/peppa.mp3",
 }
 
-RESET_CLOCK_S = 5
+# Controls how long the momobox can be paused (momie removed)
+# before the song is stopped. After this amount of time, any
+# momie placed on the box will start the song from the beginning
+RESET_CLOCK_S = 15
 
 
 class AudioPlayer:
