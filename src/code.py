@@ -158,6 +158,7 @@ def main():
 
     hall_sensor = board.GP8
     audio_out = board.GP16
+    mount_sd_card()
     #  read_rfid()
     player = AudioPlayer(hall_sensor, audio_out)
     #  test_hall()
