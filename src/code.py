@@ -43,7 +43,18 @@ class AudioPlayer:
         self.listen()
 
     def play(self):
-        self.decoder = audiomp3.MP3Decoder(open(LIBRARY[self.song], "rb"))
+        try:
+            self.decoder = audiomp3.MP3Decoder(open(LIBRARY[self.song], "rb"))
+        except KeyError:
+            print(f"That song isn't registered!")
+            print(f"RFID Key used: {self.song}")
+            self.song = None
+            return None
+        except OSError as err:
+            print(f"ERROR: {err}")
+            print("File not on SD Card!")
+            self.song = None
+            return None
         self.audio.play(self.decoder)
 
     def pause(self):
