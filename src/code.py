@@ -13,17 +13,12 @@ import storage
 
 import mfrc522
 
-
 # Dictionary to map RFID codes to song/story path names
-# TODO: Make this into human-readable file outside of
-# operational code
-LIBRARY = {
-    "23d95433": "wappin.mp3",
-    "b8003433": "shavingcream.mp3",
-    "88046318": "/sd/wildthings.mp3",
-    "8804710a": "/sd/greeneggs.mp3",
-    "8804635b": "/sd/peppa.mp3",
-}
+LIBRARY = dict()
+with open("library.txt", "r") as lib:
+    for line in lib:
+        key, value = line.split(", ")
+        LIBRARY[key.strip()] = value.strip()
 
 # Controls how long the momobox can be paused (momie removed)
 # before the song is stopped. After this amount of time, any
@@ -34,7 +29,7 @@ RESET_CLOCK_S = 15
 class AudioPlayer:
     def __init__(self, hall_sensor, audio_out):
         self.audio = audiopwmio.PWMAudioOut(audio_out)  # board.GP16
-        self.song: Optional[str] = None
+        self.song = None
         self.decoder = None
         self.hall_sensor = digitalio.DigitalInOut(hall_sensor)  # GPIO Pin 18
         self.reset_clock: int = 0
