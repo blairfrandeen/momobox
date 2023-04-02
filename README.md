@@ -1,6 +1,8 @@
 # The Momobox
 A build-it-yourself MP3 player for toddlers, and maybe for adults too. 3D-print your own custom figurines (we call them _Momies_) and pair them with your favorite stories, songs, or audiobooks. If you have a 3D printer and the ability to solder, you can build one of these for roughly the same cost as a commercial [Toniebox](https://us.tonies.com/pages/toniebox), and without the long-term cost of ownership. Plus, the momobox and the associated momies are distinctly yours!
 
+![Here's a momobox!](momobox.jpg)
+
 The momobox started as a toy I built for my daughter, who we call Momo, during my batch at [the Recurse Center](https://www.recurse.com). It runs on a Raspberry Pi Pico, and incorporates an RFID sensor, speaker, SD card, and a 3D-printed enclosure and momies.
 
 ## You Can Build One Too!
